@@ -1,20 +1,34 @@
-import re
+import re, sys, getopt
 import urllib.parse
 
-print("Welcome to ruuffian's tex-converter! Hopefully,"
-      " this will allow you to host your obsidian notes "
-      "on github and not lose the power that latex brings!")
-paramsingle = r'\$[^\$]+\$'
-paramdouble = r'\${2}[^\$]+\${2}'
 
-urlhead = r'<img src="https://render.githubusercontent.com/render/math?math='
-urltail = r'">'
+def main(argv):
+    inputfile = ''
+    outputfile = ''
+    try:
+        opts, args = getopt.getopt(argv, "hi:o:", ["help="])
+    except getopt.GetoptError:
+        print(r'usage: main.py -i <inputfile> -o <outputfile>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ["-h", "--help"]:
+            print(r'usage: main.py -i <inputfile> -o <outputfile>')
+            sys.exit()
+        elif opt == "-i":
+            inputfile = arg
+        elif opt == "-o":
+            outputfile = arg
+    if outputfile == '':
+        outputfile = inputfile
+    print(f'File to be processed:: {inputfile}')
 
+    paramsingle = r'\$[^\$]+\$'
+    paramdouble = r'\${2}[^\$]+\${2}'
 
-# Step 1: find latex in file
-# Step 2: encode formula
-# Step 3: plug it into github markdown img link
-# Step 4: replace in filestring, then write to a new file
+    rawinput = readfile(inputfile)
+    doubledollarremoved = applyregex(paramdouble, rawinput, '\n')
+    singledollarremoved = applyregex(paramsingle, doubledollarremoved)
+    writefile(singledollarremoved, outputfile)
 
 
 def readfile(filename):
@@ -25,6 +39,8 @@ def readfile(filename):
 
 
 def applyregex(regex, filestring, newline=''):
+    urlhead = r'<img src="https://render.githubusercontent.com/render/math?math='
+    urltail = r'">'
     match = re.search(regex, filestring)
     while match:
         raw = match.group().strip("$")
@@ -35,13 +51,11 @@ def applyregex(regex, filestring, newline=''):
     return filestring
 
 
-def writefile(modifiedstring):
-    f = open("git.md", "w")
+def writefile(modifiedstring, outputfile):
+    f = open(outputfile, "w")
     f.write(modifiedstring)
     f.close()
 
 
-rawfile = readfile("test.md")
-removedoubledollar = applyregex(paramdouble, rawfile, '\n')
-removesingledollar = applyregex(paramsingle, removedoubledollar)
-writefile(removesingledollar)
+if __name__ == "__main__":
+    main(sys.argv[1:])
