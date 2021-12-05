@@ -4,7 +4,9 @@ import urllib.parse
 print("Welcome to ruuffian's tex-converter! Hopefully,"
       " this will allow you to host your obsidian notes "
       "on github and not lose the power that latex brings!")
-param = r'\$[^\$]+\$'
+paramsingle = r'\$[^\$]+\$'
+paramdouble = r'\${2}[^\$]+\${2}'
+
 urlhead = r'<img src="https://render.githubusercontent.com/render/math?math='
 urltail = r'">'
 
@@ -22,12 +24,12 @@ def readfile(filename):
     return fstr
 
 
-def applyregex(regex, filestring):
+def applyregex(regex, filestring, newline=''):
     match = re.search(regex, filestring)
     while match:
         raw = match.group().strip("$")
         encoded = urllib.parse.quote(raw)
-        url = urlhead + encoded + urltail
+        url = newline + urlhead + encoded + urltail + newline
         filestring = re.sub(regex, url, filestring, 1)
         match = re.search(regex, filestring)
     return filestring
@@ -39,6 +41,7 @@ def writefile(modifiedstring):
     f.close()
 
 
-string = readfile("test.md")
-gitfile = applyregex(param, string)
-writefile(gitfile)
+rawfile = readfile("test.md")
+removedoubledollar = applyregex(paramdouble, rawfile, '\n')
+removesingledollar = applyregex(paramsingle, removedoubledollar)
+writefile(removesingledollar)
