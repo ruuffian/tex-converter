@@ -33,6 +33,7 @@ renders to
 
 It should also support any kind of **\beginarray**  latex as long as it is wrapped in dollar signs.
 
+An example of the script input and output is [input](test.md) and [output](git.md)
 
 ###Contributing
 
