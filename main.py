@@ -4,9 +4,9 @@ import urllib.parse
 print("Welcome to ruuffian's tex-converter! Hopefully,"
       " this will allow you to host your obsidian notes "
       "on github and not lose the power that latex brings!")
-param = "^\\$.*\\$$"
-hack1 = "<img src=\"https://render.githubusercontent.com/render/math?math="
-hack2 = "\">"
+param = r'\$[^\$]+\$'
+urlhead = r'<img src="https://render.githubusercontent.com/render/math?math='
+urltail = r'">'
 
 
 # Step 1: find latex in file
@@ -22,22 +22,23 @@ def readfile(filename):
     return fstr
 
 
-# need to strip $ symbols before encoding
-
-
-def applyregex(filestring, regex):
+def applyregex(regex, filestring):
     match = re.search(regex, filestring)
-    while match != "None":
-        re.sub(match.string, hack1 + urllib.parse.quote(match.group().strip("$")) + hack2, filestring)
+    while match:
+        raw = match.group().strip("$")
+        encoded = urllib.parse.quote(raw)
+        url = urlhead + encoded + urltail
+        filestring = re.sub(regex, url, filestring, 1)
+        match = re.search(regex, filestring)
     return filestring
 
 
-def writefile(filestring):
-    f = open("git.txt", "w")
-    f.write(filestring)
+def writefile(modifiedstring):
+    f = open("git.md", "w")
+    f.write(modifiedstring)
     f.close()
 
 
-string = readfile("test.txt")
-converted = applyregex(string, param)
-writefile(converted)
+string = readfile("test.md")
+gitfile = applyregex(param, string)
+writefile(gitfile)
