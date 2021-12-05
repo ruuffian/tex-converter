@@ -1,16 +1,34 @@
-# This is a sample Python script.
+import re
+import urllib.parse
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+print("Welcome to ruuffian's tex-converter! Hopefully,"
+      " this will allow you to host your obsidian notes "
+      "on github and not lose the power that latex brings!")
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# plus signs need to be replaced by %2B
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Step 1: find latex in file
+# Step 2: encode formula
+# Step 3: plug it into github markdown img link
+# Step 4: replace in filestring, then write to a new file
+
+def readfile(filename):
+    f = open(filename, "r")
+    fstr = f.read()
+    f.close()
+    return fstr
+
+
+param = "^\\$.*\\$$"
+hack1 = "<img src=\"https://render.githubusercontent.com/render/math?math="
+hack2 = "\">"
+
+
+def applyregex(filestring, regex):
+    match = re.search(regex, filestring)
+    while match != "None":
+        re.sub(match.string, hack1 + urllib.parse.quote(match.group()) + hack2, filestring)
+
+# need to implement new file write
+
