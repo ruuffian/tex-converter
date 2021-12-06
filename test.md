@@ -1,3 +1,1 @@
-$$
-\text{parent}_i = \frac{\text{child - 1}}{2}
-$$
+$$\text{parent}_i = \frac{\text{child - 1}}{2} $$

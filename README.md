@@ -35,6 +35,11 @@ It should also support any kind of **\beginarray**  latex as long as it is wrapp
 
 An example of the script input and output is [input](test.md) and [output](git.md)
 
+## Known Bugs
+
+If the input text has a space between the opening $$ and the actual latex, the converted img link fails to render. Removing this
+space, the latex renders fine. Will probably fix by trimming leading whitespace characters off the $$..$$.
+
 ## Contributing
 
 This is a fun little sideproject I have, so feel free to make any changes that you would like to see. Feel free to make a pull
