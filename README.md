@@ -3,13 +3,13 @@
 This is a pretty simple python script to convert a .md file from dollar sign latex syntax to a github img link as a 
 workaround for to display beautiful latex in your github READMEs.
 
-### Use
+## Use
 
 Invoke the script using `./main.py -i inputfile -o outputfile`
 > -o is an optional flag, if you dont specify an output file the script will over
 write the input file.
 
-### Example
+## Examples
 
 This is the latex syntax used by most latex parsers:
 
@@ -35,10 +35,10 @@ It should also support any kind of **\beginarray**  latex as long as it is wrapp
 
 An example of the script input and output is [input](test.md) and [output](git.md)
 
-###Contributing
+## Contributing
 
 This is a fun little sideproject I have, so feel free to make any changes that you would like to see. Feel free to make a pull
 request!
-### License
+## License
 
 This software is under the MIT License as seen in [LICENSE](LICENSE.md)
