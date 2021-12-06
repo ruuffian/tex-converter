@@ -18,7 +18,7 @@ This is the latex syntax used by most latex parsers:
 As you can see, it doesn't display in a regular markdown file. However, github has an inline latex renderer that you can
 'hack' to display any latex, as long as you encode it. For example, 
 
-`<img src="https://render.githubusercontent.com/render/math?math=a%5Ccdot%20a%20%3D%20%5Clvert%20a%20%5Crvert">`
+><img src="https://render.githubusercontent.com/render/math?math=a%5Ccdot%20a%20%3D%20%5Clvert%20a%20%5Crvert">
 
 renders perfectly! This is achieved by encoding and inserting the above latex into a markdown image tag.
 
@@ -28,7 +28,7 @@ This script also works with with latex that follows double $ syntax to create th
 
 renders to 
 
-`<img src="https://render.githubusercontent.com/render/math?math=%5Cboxed%7B%5Cvec%7Bv%7D%5Ccdot%5Cvec%7Bu%7D%20%3D%20ax%2Bby%2Bcz%7D">`
+><img src="https://render.githubusercontent.com/render/math?math=%5Cboxed%7B%5Cvec%7Bv%7D%5Ccdot%5Cvec%7Bu%7D%20%3D%20ax%2Bby%2Bcz%7D">
 
 
 It should also support any kind of **\beginarray**  latex as long as it is wrapped in dollar signs.
